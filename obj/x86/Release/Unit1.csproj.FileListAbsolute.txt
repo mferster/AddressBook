@@ -1,0 +1,13 @@
+C:\Users\Ninja\AppData\Local\Temporary Projects\Unit1\bin\Release\Unit1.exe
+C:\Users\Ninja\AppData\Local\Temporary Projects\Unit1\bin\Release\Unit1.pdb
+C:\Users\Ninja\AppData\Local\Temporary Projects\Unit1\bin\Release\nunit.framework.dll
+C:\Users\Ninja\AppData\Local\Temporary Projects\Unit1\bin\Release\nunit.framework.xml
+C:\Users\Ninja\AppData\Local\Temporary Projects\Unit1\obj\x86\Release\Unit1.exe
+C:\Users\Ninja\AppData\Local\Temporary Projects\Unit1\obj\x86\Release\Unit1.pdb
+C:\Users\Ninja\Documents\Visual Studio 2010\Projects\Unit1\Unit1\obj\x86\Release\Unit1.exe
+C:\Users\Ninja\Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Release\Unit1.exe.config
+C:\Users\Ninja\Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Release\Unit1.exe
+C:\Users\Ninja\Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Release\Unit1.pdb
+C:\Users\Ninja\Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Release\nunit.framework.dll
+C:\Users\Ninja\Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Release\nunit.framework.xml
+C:\Users\Ninja\Documents\Visual Studio 2010\Projects\Unit1\Unit1\obj\x86\Release\Unit1.pdb
