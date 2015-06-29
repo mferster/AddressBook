@@ -38,7 +38,7 @@ namespace Unit1
             var entity = this as T;
             string line = null;
 
-            if (entity.id == 0 || entity.id == null)
+            if (entity.id == 0)
                 return;
 
             using (StreamReader sr = new StreamReader(FullPath))
