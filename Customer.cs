@@ -14,14 +14,6 @@ namespace Unit1
             this.Address = address;
         }
 
-        public Customer(string firstName, string lastName, Address address, string id)
-        {
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Address = address;
-            this.Id = id;
-        }
-
         public override bool Equals(object other)
         {
             Customer secondParam = other as Customer;

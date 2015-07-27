@@ -19,3 +19,5 @@ C:\Documents and Settings\Mathieu\My Documents\Visual Studio 2010\Projects\Unit1
 C:\Documents and Settings\Mathieu\My Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Debug\Unit1.pdb
 C:\Documents and Settings\Mathieu\My Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Debug\nunit.framework.xml
 C:\Documents and Settings\Mathieu\My Documents\Visual Studio 2010\Projects\Unit1\Unit1\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Mathieu\My Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Debug\Newtonsoft.Json.pdb
+C:\Documents and Settings\Mathieu\My Documents\Visual Studio 2010\Projects\Unit1\Unit1\bin\Debug\Newtonsoft.Json.xml

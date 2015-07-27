@@ -3,42 +3,31 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Reflection;
+using System.Linq.Expressions;
+using Newtonsoft.Json;
 
 namespace Unit1
 {
     class Entity<T> where T : Entity<T>
     {
         public void Save()
-        {
-            string data;
-            var entity = this as T;
+        { 
+            Dictionary<string, object> properties = new Dictionary<string, object>();
 
-            entity.id = ++MaxId;
+            this.id = ++MaxId; 
 
-            if (this is Company)
-            {
-                var company = this as Company;
-                data = String.Format("{1}{0}{2}{0}{3}",
-                    PIPE, MaxId, company.Name, company.Address.ToString());
-            }
-            else if (this is Customer)
-            {
-                var customer = this as Customer;
-                data = String.Format("{1}{0}{2}{0}{3}{0}{4}", PIPE, MaxId,
-                    customer.FirstName, customer.LastName, customer.Address.ToString());
-            }
-            else
-                return;
+            foreach (var property in this.GetType().GetProperties())
+                properties.Add(property.Name, property.GetValue(this, null));
 
-            WriteToFile(data);
+            WriteToFile(JsonConvert.SerializeObject(properties, Formatting.None));
         }
 
         public void Delete()
         {
-            var entity = this as T;
             string line = null;
 
-            if (entity.id == 0)
+            if (this.id == 0)
                 return;
 
             using (StreamReader sr = new StreamReader(FullPath))
@@ -47,7 +36,7 @@ namespace Unit1
                 {
                     while ((line = sr.ReadLine()) != null)
                     {
-                        if (line.Split(PIPE)[ID] == entity.id.ToString())
+                        if (JsonConvert.DeserializeObject<T>(line).Id == this.id.ToString())
                             continue;
 
                         sw.WriteLine(line);
@@ -58,10 +47,10 @@ namespace Unit1
             File.Delete(FullPath);
             File.Move(FullPath + TEMP, FullPath);
 
-            if (entity.id == MaxId)
+            if (this.id == MaxId)   
                 MaxId = GetMaxId();
 
-            entity.id = 0;
+            this.id = 0;          
         }
 
         public static T Find(string id)
@@ -74,31 +63,16 @@ namespace Unit1
             using (StreamReader sr = new StreamReader(FullPath))
             {
                 string nextId = "0";
-                string[] arrEntity, arrAddress;
+                
+                T deserialize;
 
                 while (sr.Peek() >= 0 && int.Parse(nextId) <= int.Parse(id))
                 {
-                    arrEntity = sr.ReadLine().Split(PIPE);
-                    nextId = arrEntity[ID];
-                    arrAddress = arrEntity[arrEntity.Length-1].Split(USCORE);
+                    deserialize = JsonConvert.DeserializeObject<T>(sr.ReadLine());
+                    nextId = deserialize.Id; 
 
                     if (nextId == id)
-                    {
-                        if (typeof(T) == typeof(Company))
-                            return new Company(arrEntity[(int)COMPANY.NAME],
-                                new Address(arrAddress[(int)ADDRESS.STREET],
-                                    arrAddress[(int)ADDRESS.CITY], 
-                                    arrAddress[(int)ADDRESS.STATE],
-                                    arrAddress[(int)ADDRESS.ZIP]), id) as T;
-
-                        else if (typeof(T) == typeof(Customer))
-                            return new Customer(arrEntity[(int)CUSTOMER.FIRST_NAME], 
-                                                arrEntity[(int)CUSTOMER.LASTNAME],
-                                                new Address(arrAddress[(int)ADDRESS.STREET],
-                                                    arrAddress[(int)ADDRESS.CITY], 
-                                                    arrAddress[(int)ADDRESS.STATE],
-                                                    arrAddress[(int)ADDRESS.ZIP]), id) as T;
-                    }
+                        return deserialize;     
                 }
             }
             return null;
@@ -121,7 +95,7 @@ namespace Unit1
             }
         }
 
-        private int GetMaxId()
+        private static int GetMaxId()
         {
             int maxid = 0;
 
@@ -134,15 +108,18 @@ namespace Unit1
                 {
                     int nextId;
                     string line = null;
+                    T deserialize;
 
                     while (sr.Peek() >= 0)
                     {
                         line = sr.ReadLine();
 
-                        if (line == "" || !line.Contains(PIPE))
+                        if (line == "")
                             continue;
 
-                        nextId = int.Parse(line.Split(PIPE)[ID]);
+                        deserialize = JsonConvert.DeserializeObject<T>(line);
+
+                        nextId = int.Parse(deserialize.Id);
                         maxid = nextId > maxid ? nextId : maxid;
                     }
                 }
@@ -155,7 +132,7 @@ namespace Unit1
             }
         }
 
-        private int MaxId
+        private static int MaxId
         {
             get { return maxId == 0 ? GetMaxId() : maxId; }
             set { maxId = value; }
@@ -170,12 +147,5 @@ namespace Unit1
         private const string FILE_TYPE = ".txt";
         private const string TEMP = "_TEMP";
         private static string entityName = typeof(T).Name;
-
-        private const char PIPE = '|';
-        private const char USCORE = '_';
-        private const int ID = 0;
-        private enum CUSTOMER { ID, FIRST_NAME, LASTNAME, ADDRESS };
-        private enum COMPANY { ID, NAME, ADDRESS };
-        private enum ADDRESS { STREET, CITY, STATE, ZIP };
     }
 }
